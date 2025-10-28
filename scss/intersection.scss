@@ -24,11 +24,18 @@
     //
     --by-min: min(var(--t1, 0), var(--t2, 0));
     --by-max: max(var(--t1, 0), var(--t2, 0));
-    #{$out}: #{l.mix(
-            l.land(l.ge(var(--disc, 0), 0), l.ge(var(--by-max, 0), 0)),
-            calc(l.mix(l.ge(var(--by-min, 0), 0), var(--by-min, 0), var(--by-max, 0)) - 0.001),
-            #{v.$inf}
-        )};
+    --nearest: #{"if(\
+        style(--by-min >= 0.0): \
+        var(--by-min, 0); else: \
+        var(--by-max, 0); \
+    )"};
+
+    //
+    #{$out}: #{"if(\
+        style(--disc >= 0.0) and style(--nearest >= 0.0): \
+        calc(var(--nearest, 0) - 0.0001); else: \
+        #{v.$inf}; \
+    )"};
 }
 
 //
@@ -36,9 +43,10 @@
     @include v.minus3("po", $plane-point, $origin);
     --numerator: #{v.dot($plane-normal, "po")};
     --denominator: #{v.dot($plane-normal, $dir)};
-    --is-parallel: #{l.eq(var(--denominator, 0), 0)};
-    --t: #{l.mix(var(--is-parallel, 0), #{v.$inf}, calc(var(--numerator, 0) / var(--denominator, 0)))};
-    #{$out}: #{l.mix(l.gt(var(--t, #{v.$inf}), 0), calc(var(--t, #{v.$inf}) - 0.001), #{v.$inf})};
+    --dcomparable: abs(var(--denominator, 0));
+    --is-parallel: #{"if(style(--dcomparable < 0.001): 1; else: 0;)"};
+    --t: #{"if(style(--is-parallel: 1): #{v.$inf}; else: calc(var(--numerator, 0) / var(--denominator, 0));)"};
+    #{$out}: #{"if(style(--t < 0.001): #{v.$inf}; else: calc(var(--t, #{v.$inf}) - 0.001);)"};
 }
 
 //

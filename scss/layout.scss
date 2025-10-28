@@ -7,7 +7,7 @@
     & {
         display: block;
         box-sizing: border-box;
-        will-change: transform, contents;
+        will-change: transform;
         content-visibility: auto;
         contain-intrinsic-size:
             calc(var(--w, 1) * var(--pixel-size, 1))
@@ -30,6 +30,10 @@
         contain: strict;
         overflow: hidden;
         position: relative;
+
+        //
+        perspective: 1000;
+        transform-style: preserve-3d;
     }
 
     //
@@ -38,6 +42,7 @@
         --x: mod(var(--I, 0), var(--w, 1));
         --y: round(down, calc(var(--I, 0) / var(--w, 1)));
 
+        backface-visibility: hidden;
         content-visibility: hidden;
         contain-intrinsic-size: var(--pixel-size, 1px) var(--pixel-size, 1px);
         transform-origin: 0px 0px;

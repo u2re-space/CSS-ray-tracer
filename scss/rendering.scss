@@ -44,8 +44,10 @@
     @return #{"--is-equal(var(--#{$a}, 0), var(--#{$b}, 0))"};
 }
 
+//http://localhost:5173/
 @function between-compare($v, $a, $b, $inclusive: true) {
-    @if $inclusive {
+    @return #{"if(style(--#{$v} >= #{$a}) and style(--#{$v} < #{$b}): 1; else: 0; )"};
+    /*@if $inclusive {
         @return calc(clamp(
             0,
             sign(#{$v} - min(#{$a}, #{$b})) + sign(max(#{$a}, #{$b}) - #{$v}),
@@ -57,7 +59,7 @@
             sign(sign(#{$v} - min(#{$a}, #{$b})) + sign(max(#{$a}, #{$b}) - #{$v}) - 1),
             1
         ));
-    }
+    }*/
 }
 
 //
@@ -90,7 +92,7 @@
         );
         --is-plane-#{$i}: #{is-equal("t-#{$i}", "plane-t-#{$i}")};
         --is-sphere-#{$i}: #{is-equal("t-#{$i}", "sphere-t-#{$i}")};
-        --valid-distance-#{$i}: #{between-compare(var(--t-#{$i}, 0), 0, v.$inf, false)};
+        --valid-distance-#{$i}: #{between-compare("t-#{$i}", 0, v.$inf, false)};
     }
 
     //
