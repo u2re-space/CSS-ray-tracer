@@ -23,137 +23,59 @@ $inf: 10000;
 }
 
 //
-@property --screen-x {
-    inherits: true;
-    syntax: "<number>";
-    initial-value: 0;
-}
+@mixin declare-vec2-property($name) {
+    @property --#{$name}-x {
+        inherits: true;
+        syntax: "<number>";
+        initial-value: 0;
+    }
 
-@property --screen-y {
-    inherits: true;
-    syntax: "<number>";
-    initial-value: 0;
-}
-
-//
-@property --dx {
-    inherits: true;
-    syntax: "<number>";
-    initial-value: 0;
-}
-
-@property --dy {
-    inherits: true;
-    syntax: "<number>";
-    initial-value: 0;
+    @property --#{$name}-y {
+        inherits: true;
+        syntax: "<number>";
+        initial-value: 0;
+    }
 }
 
 //
-@property --x {
-    inherits: true;
-    syntax: "<integer>";
-    initial-value: 0;
+@mixin declare-prop($name, $value: 0, $type: number) {
+    @property --#{$name} {
+        inherits: true;
+        syntax: "<#{$type}>";
+        initial-value: #{$value};
+    }
 }
 
-@property --y {
-    inherits: true;
-    syntax: "<integer>";
-    initial-value: 0;
-}
-
-@property --w {
-    inherits: true;
-    syntax: "<integer>";
-    initial-value: 1;
-}
-
-@property --h {
-    inherits: true;
-    syntax: "<integer>";
-    initial-value: 1;
-}
+//
+@include declare-prop("dx");
+@include declare-prop("dy");
+@include declare-prop("x");
+@include declare-prop("y");
+@include declare-prop("w");
+@include declare-prop("h");
+@include declare-prop("I");
 
 //
 @for $i from 0 through 3 {
-    @property --t-#{$i} {
-        inherits: true;
-        syntax: "<number>";
-        initial-value: #{$inf};
-    }
+    @include declare-prop("t-#{$i}", $inf);
+    @include declare-prop("sphere-t-#{$i}", $inf);
+    @include declare-prop("plane-t-#{$i}", $inf);
 
-    @property --sphere-t-#{$i} {
-        inherits: true;
-        syntax: "<number>";
-        initial-value: #{$inf};
-    }
+    @include declare-prop("is-plane-#{$i}", 0);
+    @include declare-prop("is-sphere-#{$i}", 0);
+    @include declare-prop("valid-distance-#{$i}", 0);
 
-    @property --plane-t-#{$i} {
-        inherits: true;
-        syntax: "<number>";
-        initial-value: #{$inf};
-    }
-
-    @property --is-plane-#{$i} {
-        inherits: true;
-        syntax: "<number>";
-        initial-value: 0;
-    }
-
-    @property --is-sphere-#{$i} {
-        inherits: true;
-        syntax: "<number>";
-        initial-value: 0;
-    }
-
-    @property --color-#{$i} {
-        inherits: true;
-        syntax: "<color>";
-        initial-value: transparent;
-    }
-
-    @property --it-color-#{$i} {
-        inherits: true;
-        syntax: "<color>";
-        initial-value: transparent;
-    }
-
-    @property --plane-color-#{$i} {
-        inherits: true;
-        syntax: "<color>";
-        initial-value: transparent;
-    }
-
-    @property --sphere-color-#{$i} {
-        inherits: true;
-        syntax: "<color>";
-        initial-value: transparent;
-    }
-
-    @property --shaded-color-#{$i} {
-        inherits: true;
-        syntax: "<color>";
-        initial-value: transparent;
-    }
-
-    @property --surface-color-#{$i} {
-        inherits: true;
-        syntax: "<color>";
-        initial-value: transparent;
-    }
-
-    @property --fresnel-#{$i} {
-        inherits: true;
-        syntax: "<number>";
-        initial-value: 0;
-    }
-
-    @property --mix-factor-#{$i} {
-        inherits: true;
-        syntax: "<number>";
-        initial-value: 0;
-    }
+    @include declare-prop("color-#{$i}", transparent, color);
+    @include declare-prop("it-color-#{$i}", transparent, color);
+    @include declare-prop("plane-color-#{$i}", transparent, color);
+    @include declare-prop("sphere-color-#{$i}", transparent, color);
+    @include declare-prop("shaded-color-#{$i}", transparent, color);
+    @include declare-prop("surface-color-#{$i}", transparent, color);
+    @include declare-prop("fresnel-#{$i}", 0);
+    @include declare-prop("mix-factor-#{$i}", 0);
 
     //
+    @include declare-vec2-property("screen");
     @include declare-vec3-property("ray-origin-#{$i}");
     @include declare-vec3-property("ray-dir-#{$i}");
     @include declare-vec3-property("sphere-normal-#{$i}");
@@ -161,18 +83,9 @@ $inf: 10000;
     @include declare-vec3-property("mixed-normal-#{$i}");
 }
 
-
-@property --sphere-radius {
-    inherits: true;
-    syntax: "<number>";
-    initial-value: 0;
-}
-
-@property --sphere-center-length {
-    inherits: true;
-    syntax: "<number>";
-    initial-value: 0;
-}
+//
+@include declare-prop("sphere-radius", 0);
+@include declare-prop("sphere-center-length", 0);
 
 //
 @include declare-vec3-property("camera-origin");

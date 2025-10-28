@@ -30,39 +30,67 @@
 }
 
 //
+@function if($bool, $ifTrue: 1, $ifFalse: 0) {
+    @return "if (style(--#{$bool}: 1): #{$ifTrue}; else: #{$ifFalse};)";
+}
+
+//
+@#{"function --is-equal(--a <number>, --b <number>) returns <number>"} {
+    --diff: abs(calc(var(--b, 0) - var(--a, 0)));
+    result: #{"if(style(--diff < 0.0001): 1; else: 0;)"};
+}
+
+@function is-equal($a, $b) {
+    @return #{"--is-equal(var(--#{$a}, 0), var(--#{$b}, 0))"};
+}
+
+@function between-compare($v, $a, $b, $inclusive: true) {
+    @if $inclusive {
+        @return calc(clamp(
+            0,
+            sign(#{$v} - min(#{$a}, #{$b})) + sign(max(#{$a}, #{$b}) - #{$v}),
+            1
+        ));
+    } @else {
+        @return calc(clamp(
+            0,
+            sign(sign(#{$v} - min(#{$a}, #{$b})) + sign(max(#{$a}, #{$b}) - #{$v}) - 1),
+            1
+        ));
+    }
+}
+
+//
 @mixin trace-ray($i) {
     $prev-i: $i - 1;
 
     // Potentially optimized?
     // Intersection tests
     & {
-        --sphere-t-#{$i}: if(style(--valid-distance-#{$prev-i}: 1):
-            #{i.sphere-intersection(
-                "sphere-center",
-                "sphere-radius",
-                "ray-origin-#{$prev-i}",
-                "ray-dir-#{$prev-i}"
-            )};
-            else: #{v.$inf});
+        --sphere-t-#{$i}: #{if("valid-distance-#{$prev-i}", i.sphere-intersection(
+            "sphere-center",
+            "sphere-radius",
+            "ray-origin-#{$prev-i}",
+            "ray-dir-#{$prev-i}"
+        ), v.$inf)};
 
-        --plane-t-#{$i}: if(style(--valid-distance-#{$prev-i}: 1):
-            #{i.plane-intersection(
-                "plane-center",
-                "plane-normal",
-                "ray-origin-#{$prev-i}",
-                "ray-dir-#{$prev-i}"
-            )};
-            else: #{v.$inf});
+        --plane-t-#{$i}: #{if("valid-distance-#{$prev-i}", i.plane-intersection(
+            "plane-center",
+            "plane-normal",
+            "ray-origin-#{$prev-i}",
+            "ray-dir-#{$prev-i}"
+        ), v.$inf)};
     }
 
+    //
     & {
-        --t-#{$i}: min(var(--sphere-t-#{$i}, #{v.$inf}), var(--plane-t-#{$i}, #{v.$inf}));
-        --is-plane-#{$i}: #{l.eq(var(--t-#{$i}, #{v.$inf}), var(--plane-t-#{$i}, #{v.$inf}))};
-        --is-sphere-#{$i}: #{l.eq(var(--t-#{$i}, #{v.$inf}), var(--sphere-t-#{$i}, #{v.$inf}))};
-        --valid-distance-#{$i}: #{l.land(
-            l.land(l.lt(var(--t-#{$i}, #{v.$inf}), #{v.$inf}), l.ge(var(--t-#{$i}, #{v.$inf}), 0)),
-            var(--valid-distance-#{$prev-i}, 1)
-        )};
+        --t-#{$i}: min(
+            var(--sphere-t-#{$i}, #{v.$inf}),
+            var(--plane-t-#{$i}, #{v.$inf})
+        );
+        --is-plane-#{$i}: #{is-equal("t-#{$i}", "plane-t-#{$i}")};
+        --is-sphere-#{$i}: #{is-equal("t-#{$i}", "sphere-t-#{$i}")};
+        --valid-distance-#{$i}: #{between-compare(var(--t-#{$i}, 0), 0, v.$inf, false)};
     }
 
     //
@@ -88,9 +116,7 @@
     }
 
     //
-    & {
-        --plane-color-#{$i}: if(style(--is-plane-#{$i}: 1): #{c.checkerboard("ray-origin-#{$i}")}; else: #111);
-    }
+    & { --plane-color-#{$i}: #{if("is-plane-#{$i}", c.checkerboard("ray-origin-#{$i}"), #111)}; }
 
     //
     & {
@@ -108,7 +134,7 @@
 
         //
         @if $i == 1 {
-            --color-#{$i}: var(--it-color-#{$i});
+            --color-#{$i}: var(--it-color-#{$i}, white);
         } @else {
             --color-#{$i}: color-mix(
                 in srgb,

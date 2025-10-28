@@ -2,17 +2,59 @@
 @use "intersection.scss" as i;
 @use "color.scss" as c;
 
-// low-level
-@#{'function'} --sphere-intersection(--center-x type(<number>), --center-y type(<number>), --center-z type(<number>), --radius type(<number>), --origin-x type(<number>), --origin-y type(<number>), --origin-z type(<number>), --dir-x type(<number>), --dir-y type(<number>), --dir-z type(<number>)) returns <number> {
+@use "sass:string";
+@use "sass:list";
+
+// Возвращает строку вида: --<name> type(<number|color>)
+@function make_arg($name) {
+    $is-color: string.index("#{$name}", "color") != null;
+    $type: if($is-color, "<color>", "<number>");
+    @return string.unquote("--#{$name} type(#{$type})");
+}
+
+// Собирает список аргументов для @function
+@function make_args($args) {
+    $out: ();
+    @each $a in $args {
+        $out: list.append($out, make_arg($a), comma);
+    }
+    @return $out;
+}
+
+// Генератор CSS Custom Function
+// $returns — опционально, по умолчанию <number>
+@mixin make-function($name, $args, $returns: "number") {
+    $argsGenerated: make_args($args);
+    $returns: string.unquote($returns);
+
+    @#{"function --#{$name}("}#{$argsGenerated}#{") returns <#{$returns}>"} {
+        @content;
+    }
+}
+
+@include make-function("sphere-intersection", (
+    "center-x", "center-y", "center-z",
+    "radius",
+    "origin-x", "origin-y", "origin-z",
+    "dir-x", "dir-y", "dir-z")
+) {
     @include i.sphere-intersection-logic("center", "radius", "origin", "dir");
 }
 
-// low-level
-@#{'function'} --plane-intersection(--center-x type(<number>), --center-y type(<number>), --center-z type(<number>), --normal-x type(<number>), --normal-y type(<number>), --normal-z type(<number>), --origin-x type(<number>), --origin-y type(<number>), --origin-z type(<number>), --dir-x type(<number>), --dir-y type(<number>), --dir-z type(<number>)) returns <number> {
+@include make-function("plane-intersection", (
+    "center-x", "center-y", "center-z",
+    "normal-x", "normal-y", "normal-z",
+    "origin-x", "origin-y", "origin-z",
+    "dir-x", "dir-y", "dir-z")
+) {
     @include i.plane-intersection-logic("center", "normal", "origin", "dir");
 }
 
-// low-level
-@#{'function'} --light-shading(--origin-x type(<number>), --origin-y type(<number>), --origin-z type(<number>), --normal-x type(<number>), --normal-y type(<number>), --normal-z type(<number>), --light-pos-x type(<number>), --light-pos-y type(<number>), --light-pos-z type(<number>), --color type(<color>)) returns <color> {
+@include make-function("light-shading", (
+    "origin-x", "origin-y", "origin-z",
+    "normal-x", "normal-y", "normal-z",
+    "light-pos-x", "light-pos-y", "light-pos-z",
+    "color"),
+"color") {
     @include c.light-shading-logic("origin", "normal", "light-pos", var(--color, #111));
 }
