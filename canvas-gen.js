@@ -17,16 +17,16 @@ export const generateCSSCanvas = async (root, w, h, batchSize = 120) => {
         const frag = document.createDocumentFragment();
         const end = Math.min(i + batchSize, n);
         for (; i < end; i++) {
-            const el = proto.cloneNode(false);
-            el.style.setProperty("--I", i);
-            el.style.setProperty("transform", `translate3d(calc(${i%w} * var(--pixel-size, 1px)), calc(${(i/w)|0} * var(--pixel-size, 1px)), 0px)`);
-            frag.appendChild(el);
             await Promise.resolve();
+            const el = proto.cloneNode(false);
+            const x = i%w, y = (i/w)|0;
+            el.style.cssText = `--x:${x};--y:${y};--I:${i};transform:translate3d(calc(${x}*var(--pixel-size,1px)),calc(${y}*var(--pixel-size,1px)),0px)`;
+            frag.appendChild(el);
         }
-        root.appendChild(frag);
 
-        // Отдать кадр; если нужен максимум скорости — замените на 0 микропауз.
+        // do next render only after previous
         await new Promise(r => requestAnimationFrame(r));
+        root.appendChild(frag);
     }
 };
 
