@@ -2,17 +2,18 @@
 @use "intersection.scss" as i;
 @use "color.scss" as c;
 
+//
 @use "sass:string";
 @use "sass:list";
 
-// Возвращает строку вида: --<name> type(<number|color>)
+//
 @function make_arg($name) {
     $is-color: string.index("#{$name}", "color") != null;
     $type: if($is-color, "<color>", "<number>");
     @return string.unquote("--#{$name} type(#{$type})");
 }
 
-// Собирает список аргументов для @function
+//
 @function make_args($args) {
     $out: ();
     @each $a in $args {
@@ -21,8 +22,8 @@
     @return $out;
 }
 
-// Генератор CSS Custom Function
-// $returns — опционально, по умолчанию <number>
+//
+// $returns
 @mixin make-function($name, $args, $returns: "number") {
     $argsGenerated: make_args($args);
     $returns: string.unquote($returns);
@@ -32,6 +33,7 @@
     }
 }
 
+//
 @include make-function("sphere-intersection", (
     "center-x", "center-y", "center-z",
     "radius",
@@ -41,6 +43,7 @@
     @include i.sphere-intersection-logic("center", "radius", "origin", "dir");
 }
 
+//
 @include make-function("plane-intersection", (
     "center-x", "center-y", "center-z",
     "normal-x", "normal-y", "normal-z",
@@ -50,6 +53,7 @@
     @include i.plane-intersection-logic("center", "normal", "origin", "dir");
 }
 
+//
 @include make-function("light-shading", (
     "origin-x", "origin-y", "origin-z",
     "normal-x", "normal-y", "normal-z",

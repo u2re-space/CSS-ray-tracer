@@ -9,10 +9,12 @@ A unusual ray tracer implemented **purely in CSS** — no pre-rendered images, n
 ## Single SCSS source code file
 
 **You can change and edit compilable parameters.**
+
 - 🎨 **[Ray-Tracing-SCSS](./unified.scss)** 🎨
 - 🖨️ [JS-DOM-Loader](./canvas-gen.js) 🖨️
 
 **Such as:**
+
 - Your features or fixes
 - Iteration count
 - Enable (or not) reflections
@@ -44,11 +46,9 @@ A unusual ray tracer implemented **purely in CSS** — no pre-rendered images, n
 
 ## Getting Started
 
-⚠️ **Requires the newest version of Chrome or Edge (Canary/Dev) with Experimental Web Platform features enabled.**  
+Now, working on stable Chrome from **142** versions.
 
-> Make sure to enable the [`chrome://flags/#enable-experimental-web-platform-features`](chrome://flags/#enable-experimental-web-platform-features) flag.
-
-### Install 
+### Install
 
 - `npm install -D`
 - `npm run dev`
@@ -66,7 +66,7 @@ A unusual ray tracer implemented **purely in CSS** — no pre-rendered images, n
 ## Notes
 
 - This project is a demonstration of what’s possible with modern and experimental CSS — expect things to break as browser support evolves!
-- No pre-rendered images or JavaScript-based rendering: **all visuals are computed in real-time by CSS.** 
+- No pre-rendered images or JavaScript-based rendering: **all visuals are computed in real-time by CSS.**
 
 ---
 
@@ -90,14 +90,16 @@ A unusual ray tracer implemented **purely in CSS** — no pre-rendered images, n
 
 **These options isn't included in factory box.** This test made in April of 2025 year. Currently, didn't made actual results.
 
-**What was enabled:** 
-  - reflections
-  - two iterations level (exclude first rays) 
-  - higher pixel resolution...
+**What was enabled:**
 
-**As you can see:** 
-  - too expensive RAM usage
-  - roundly 1 minute to this frame
+- reflections
+- two iterations level (exclude first rays)
+- higher pixel resolution...
+
+**As you can see:**
+
+- too expensive RAM usage
+- roundly 1 minute to this frame
 
 ###
 
@@ -106,10 +108,6 @@ A unusual ray tracer implemented **purely in CSS** — no pre-rendered images, n
   <img width="240" src="./results/max-possible-ram-madness.png" alt="v1"/>
 </details>
 
-###
-
 ---
-
-###
 
 **Have fun exploring the bleeding edge of CSS!**
