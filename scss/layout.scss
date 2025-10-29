@@ -6,7 +6,7 @@
     & {
         display: block;
         box-sizing: border-box;
-        will-change: transform;
+        will-change: transform, contents, scroll-position;
         content-visibility: auto;
         contain-intrinsic-size:
             calc(var(--w, 1) * var(--pixel-size, 1))
