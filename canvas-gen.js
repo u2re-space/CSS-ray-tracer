@@ -30,6 +30,5 @@ export const generateCSSCanvas = async (root, w, h, batchSize = 120) => {
     }
 };
 
-
 //
 requestAnimationFrame(()=>requestIdleCallback(()=>generateCSSCanvas(document.querySelector(".root"), 120, 120)));
