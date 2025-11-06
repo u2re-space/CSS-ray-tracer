@@ -50,22 +50,29 @@ export const generateCSSCanvas = async (root: SVGSVGElement, w: number, h: numbe
     whereAppend.innerHTML = ``;
 
     //
-    let i = 0;
-    while (i < n) {
+    const renderChunk = async (i: number, batchSize: number) => {
         const frag = document.createDocumentFragment();
         const end = Math.min(i + batchSize, n);
+        const forAwait = Promise.resolve();
         for (; i < end; i++) {
-            await Promise.resolve();
             const el = proto.cloneNode(true) as SVGUseElement;
             const x = i%w, y = (i/w)|0;
             el.setAttribute('x', `${x}`);
             el.setAttribute('y', `${y}`);
             frag.appendChild(el);
         }
+        await forAwait;
+        return frag;
+    }
 
-        // do next render only after previous
-        await new Promise(r => requestAnimationFrame(r));
-        whereAppend?.appendChild(frag);
+    //
+    let i = 0;
+    while (i < n) {
+        const awaiting: any = Promise.all([
+            renderChunk(i, batchSize),
+            new Promise(r => requestAnimationFrame(r))
+        ]); i += batchSize;
+        whereAppend?.appendChild((await awaiting)[0]);
     }
 };
 
