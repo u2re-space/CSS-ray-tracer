@@ -64,7 +64,9 @@
     //
     & {
         @include v.compute-intersection-point("ray-origin-#{$i}", "ray-origin-#{$prev-i}", "ray-dir-#{$prev-i}", "t-#{$i}");
-        @include i.sphere-normal(
+
+        //
+        @include i.sphere-normal-I(
             "sphere-normal-#{$i}",
             "sphere-center",
             var(--sphere-radius, 1),
@@ -125,6 +127,7 @@ svg {
     & {
         --default-color: #aacffe;
         --sphere-radius: 1;
+        --sphere-radius-I: calc(1 / var(--sphere-radius, 1));
 
         //
         @include v.vec3("sphere-center", 0, 0.1, 3);

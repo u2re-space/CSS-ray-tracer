@@ -89,3 +89,10 @@
     @include v.minus3($tmp, $point, $center);
     @include v.normalize($out-normal, $tmp, $radius);
 }
+
+//
+@mixin sphere-normal-I($out-normal, $center, $radius-I, $point) {
+    $tmp: $point + "-tmp";
+    @include v.minus3($tmp, $point, $center);
+    @include v.normalizeI($out-normal, $tmp, $radius-I);
+}

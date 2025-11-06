@@ -27,7 +27,8 @@
     );
 
     //
-    @include v.normalize($out-ray-dir, $out-ray-dir + "-tmp", v.length($out-ray-dir + "-tmp"));
+    --ray-dir-length: calc(1 / #{v.length($out-ray-dir + "-tmp")});
+    @include v.normalizeI($out-ray-dir, $out-ray-dir + "-tmp", var(--ray-dir-length, 1));
     @include v.vec3(
         $out-ray-origin,
         var(--#{$camera-origin}-x, 0),

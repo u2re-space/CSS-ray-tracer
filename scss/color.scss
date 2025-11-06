@@ -19,8 +19,8 @@
         calc(var(--#{$light-pos}-y) - var(--#{$origin}-y)),
         calc(var(--#{$light-pos}-z) - var(--#{$origin}-z))
     );
-    --length: #{v.length($light-dir + "-tmp")};
-    @include v.normalize($light-dir, $light-dir + "-tmp", var(--length, 1));
+    --length: calc(1 / #{v.length($light-dir + "-tmp")});
+    @include v.normalizeI($light-dir, $light-dir + "-tmp", var(--length, 1));
     --dot-product: max(0, calc(max(#{v.dot($normal, $light-dir)} * 0.9 + 0.1, 0)));
     #{$out}: color(
         from #{$color} srgb calc(r * clamp(0, var(--dot-product, 1), 1)) calc(g * clamp(0, var(--dot-product, 1), 1)) calc(

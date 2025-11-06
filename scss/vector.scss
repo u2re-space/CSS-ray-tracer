@@ -57,6 +57,17 @@ $inf: 10000;
     );
 }
 
+//
+@mixin normalizeI($out, $v, $l) {
+    @include vec3(
+        $out,
+        clamp(-1, calc(var(--#{$v}-x, 0) * #{$l}), 1),
+        clamp(-1, calc(var(--#{$v}-y, 0) * #{$l}), 1),
+        clamp(-1, calc(var(--#{$v}-z, 0) * #{$l}), 1)
+    );
+}
+
+//
 @mixin reflect($out, $v, $n) {
     @include vec3(
         $out,
