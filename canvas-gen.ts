@@ -5,7 +5,7 @@ import scssCode from "./scss/rendering.scss?inline";
 const NS = 'http://www.w3.org/2000/svg';
 
 //
-export const generateCSSCanvas = async (root: SVGSVGElement, w: number, h: number, batchSize = 180) => {
+export const generateCSSCanvas = async (root: SVGSVGElement, w: number, h: number, batchSize = 120) => {
     if (!root) {
         throw new Error("root not found");
     }
