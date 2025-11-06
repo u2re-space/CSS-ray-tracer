@@ -53,15 +53,14 @@ export const generateCSSCanvas = async (root: SVGSVGElement, w: number, h: numbe
     const renderChunk = async (i: number, batchSize: number) => {
         const frag = document.createDocumentFragment();
         const end = Math.min(i + batchSize, n);
-        const forAwait = Promise.resolve();
         for (; i < end; i++) {
+            await Promise.resolve();
             const el = proto.cloneNode(true) as SVGUseElement;
             const x = i%w, y = (i/w)|0;
             el.setAttribute('x', `${x}`);
             el.setAttribute('y', `${y}`);
             frag.appendChild(el);
         }
-        await forAwait;
         return frag;
     }
 

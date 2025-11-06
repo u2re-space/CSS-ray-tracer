@@ -37,7 +37,7 @@
     & {
         --sphere-t-#{$i}: #{if("valid-distance-#{$prev-i}", i.sphere-intersection(
             "sphere-center",
-            "sphere-radius",
+            "sphere-radius-in-2",
             "ray-origin-#{$prev-i}",
             "ray-dir-#{$prev-i}"
         ), v.$inf)};
@@ -82,7 +82,8 @@
         );
 
         //
-        @include v.reflect("ray-dir-#{$i}", "ray-dir-#{$prev-i}", "mixed-normal-#{$i}");
+        --ray-dir-nv-#{$i}: #{v.dot("ray-dir-#{$prev-i}", "mixed-normal-#{$i}")};
+        @include v.reflect-nv("ray-dir-#{$i}", "ray-dir-#{$prev-i}", "mixed-normal-#{$i}", "ray-dir-nv-#{$i}");
     }
 
     //
@@ -126,8 +127,9 @@ svg {
 
     & {
         --default-color: #aacffe;
-        --sphere-radius: 1;
+        --sphere-radius: 1.02;
         --sphere-radius-I: calc(1 / var(--sphere-radius, 1));
+        --sphere-radius-in-2: pow(var(--sphere-radius, 0), 2);
 
         //
         @include v.vec3("sphere-center", 0, 0.1, 3);

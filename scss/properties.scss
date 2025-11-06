@@ -49,6 +49,8 @@ $inf: 10000;
 //
 @include declare-prop("w", 120, number, true);
 @include declare-prop("h", 120, number, true);
+@include declare-prop("dw", 0.01, number, true);
+@include declare-prop("dh", 0.01, number, true);
 @include declare-prop("dx");
 @include declare-prop("dy");
 @include declare-prop("x");
@@ -60,6 +62,7 @@ $inf: 10000;
     @include declare-prop("t-#{$i}", $inf);
     @include declare-prop("sphere-t-#{$i}", $inf);
     @include declare-prop("plane-t-#{$i}", $inf);
+    @include declare-prop("ray-dir-nv-#{$i}", $inf);
 
     @include declare-prop("is-plane-#{$i}", 0);
     @include declare-prop("is-sphere-#{$i}", 0);
@@ -89,6 +92,7 @@ $inf: 10000;
 //
 @include declare-prop("sphere-radius", 0, true);
 @include declare-prop("sphere-radius-I", 0, true);
+@include declare-prop("sphere-radius-in-2", 0, true);
 @include declare-prop("sphere-center-length", 0, true);
 @include declare-prop("ray-dir-length", 0, true);
 

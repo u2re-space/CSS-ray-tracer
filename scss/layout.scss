@@ -1,6 +1,8 @@
 //
 svg {
     --pixel-size: 2px;
+    --dw: calc(1 / var(--w, 1));
+    --dh: calc(1 / var(--h, 1));
 
     //
     & {

@@ -2,24 +2,68 @@
 @use "./logic.scss" as l;
 
 //
-@mixin sphere-intersection-logic($center, $radius, $origin, $dir, $out: "result") {
-    @include v.minus3("oc", $origin, $center);
-    --radius-in-2: calc(var(--#{$radius}, 1) * var(--#{$radius}, 1));
+@mixin declare-prop($name, $value: 0, $type: number, $inherits: false) {
+    @property --#{$name} {
+        inherits: #{$inherits};
+        syntax: "<#{$type}>";
+        initial-value: #{$value};
+    }
+}
+
+//
+@mixin declare-vec3-property($name, $inherits: false) {
+    @property --#{$name}-x {
+        inherits: #{$inherits};
+        syntax: "<number>";
+        initial-value: 0;
+    }
+
+    @property --#{$name}-y {
+        inherits: #{$inherits};
+        syntax: "<number>";
+        initial-value: 0;
+    }
+
+    @property --#{$name}-z {
+        inherits: #{$inherits};
+        syntax: "<number>";
+        initial-value: 0;
+    }
+}
+
+//
+@mixin sphere-intersection-logic($center, $radiusIn2, $origin, $dir, $out: "result") {
+    @include declare-prop("a");
+    @include declare-prop("b");
+    @include declare-prop("c");
+    @include declare-prop("disc");
+    @include declare-prop("sqrt-of-disc");
+    @include declare-prop("a-m-2");
+    @include declare-prop("b-neg");
+    @include declare-prop("t1");
+    @include declare-prop("t2");
+    @include declare-prop("by-min");
+    @include declare-prop("by-max");
+    @include declare-prop("nearest");
 
     //
-    --a: #{v.dot($dir, $dir)};
+    @include declare-vec3-property("oc");
+    @include v.minus3("oc", $origin, $center);
+
+    //
+    --a: #{v.p2($dir)};
     --b: calc(#{v.dot("oc", $dir)} * 2);
-    --c: calc(#{v.dot("oc", "oc")} - var(--radius-in-2, 1));
+    --c: calc(#{v.p2("oc")} - var(--radius-in-2, 1));
 
     //
     --disc: calc((var(--b, 0) * var(--b, 0)) - (var(--a, 0) * var(--c, 0) * 4));
 
     //
     --sqrt-of-disc: sqrt(max(var(--disc, 0), 0));
-    --a-m-2: calc(2 * var(--a, 0));
+    --a-m-2: calc(0.5 / var(--a, 0));
     --b-neg: calc(-1 * var(--b, 0));
-    --t1: calc((var(--b-neg, 0) - var(--sqrt-of-disc, 0)) / var(--a-m-2, 0));
-    --t2: calc((var(--b-neg, 0) + var(--sqrt-of-disc, 0)) / var(--a-m-2, 0));
+    --t1: calc((var(--b-neg, 0) - var(--sqrt-of-disc, 0)) * var(--a-m-2, 0));
+    --t2: calc((var(--b-neg, 0) + var(--sqrt-of-disc, 0)) * var(--a-m-2, 0));
 
     //
     --by-min: min(var(--t1, 0), var(--t2, 0));
@@ -40,7 +84,17 @@
 
 //
 @mixin plane-intersection-logic($plane-point, $plane-normal, $origin, $dir, $out: "result") {
+    @include declare-prop("numerator");
+    @include declare-prop("denominator");
+    @include declare-prop("dcomparable");
+    @include declare-prop("is-parallel");
+    @include declare-prop("t");
+
+    //
+    @include declare-vec3-property("po");
     @include v.minus3("po", $plane-point, $origin);
+
+    //
     --numerator: #{v.dot($plane-normal, "po")};
     --denominator: #{v.dot($plane-normal, $dir)};
     --dcomparable: abs(var(--denominator, 0));

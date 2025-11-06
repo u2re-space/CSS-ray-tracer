@@ -48,6 +48,16 @@ $inf: 10000;
 }
 
 //
+@function p2($a) {
+    //@return pow(#{length($a)}, 2);
+    @return calc(
+        pow(var(--#{$a}-x, 0), 2) +
+        pow(var(--#{$a}-y, 0), 2) +
+        pow(var(--#{$a}-z, 0), 2)
+    );
+}
+
+//
 @mixin normalize($out, $v, $l) {
     @include vec3(
         $out,
@@ -74,6 +84,16 @@ $inf: 10000;
         calc(var(--#{$v}-x, 0) - 2 * dot($v, $n) * var(--#{$n}-x, 0)),
         calc(var(--#{$v}-y, 0) - 2 * dot($v, $n) * var(--#{$n}-y, 0)),
         calc(var(--#{$v}-z, 0) - 2 * dot($v, $n) * var(--#{$n}-z, 0))
+    );
+}
+
+//
+@mixin reflect-nv($out, $v, $n, $nv) {
+    @include vec3(
+        $out,
+        calc(var(--#{$v}-x, 0) - 2 * var(--#{$nv}, 0) * var(--#{$n}-x, 0)),
+        calc(var(--#{$v}-y, 0) - 2 * var(--#{$nv}, 0) * var(--#{$n}-y, 0)),
+        calc(var(--#{$v}-z, 0) - 2 * var(--#{$nv}, 0) * var(--#{$n}-z, 0))
     );
 }
 

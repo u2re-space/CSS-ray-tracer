@@ -3,8 +3,8 @@
 
 //
 @mixin generate-ray($camera-origin, $camera-view-dir, $camera-up, $camera-right, $out-ray-origin, $out-ray-dir) {
-    --dx: calc(var(--x, 0) / var(--w, 0));
-    --dy: calc(var(--y, 0) / var(--h, 0));
+    --dx: calc(var(--x, 0) * var(--dw, 0));
+    --dy: calc(var(--y, 0) * var(--dh, 0));
 
     //
     --screen-x: calc(var(--dx, 0) * 2 - 1);

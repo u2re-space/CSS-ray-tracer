@@ -36,7 +36,7 @@
 //
 @include make-function("sphere-intersection", (
     "center-x", "center-y", "center-z",
-    "radius",
+    "radius-in-2",
     "origin-x", "origin-y", "origin-z",
     "dir-x", "dir-y", "dir-z")
 ) {
