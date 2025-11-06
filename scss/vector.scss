@@ -27,8 +27,9 @@ $inf: 10000;
 
 @function dot($a, $b) {
     @return calc(
-        (var(--#{$a}-x, 0) * var(--#{$b}-x, 0)) + (var(--#{$a}-y, 0) * var(--#{$b}-y, 0)) +
-            (var(--#{$a}-z, 0) * var(--#{$b}-z, 0))
+        (var(--#{$a}-x, 0) * var(--#{$b}-x, 0)) +
+        (var(--#{$a}-y, 0) * var(--#{$b}-y, 0)) +
+        (var(--#{$a}-z, 0) * var(--#{$b}-z, 0))
     );
 }
 
@@ -43,7 +44,7 @@ $inf: 10000;
 
 //
 @function length($a) {
-    @return sqrt(max(#{dot($a, $a)}, 0));
+    @return hypot(var(--#{$a}-x, 0), var(--#{$a}-y, 0), var(--#{$a}-z, 0));
 }
 
 //
