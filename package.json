@@ -22,5 +22,8 @@
         "vite-plugin-optimizer": "^1.4.3",
         "vite-plugin-singlefile": "^2.1.0",
         "vite-plugin-static-copy": "^2.2.0"
+    },
+    "dependencies": {
+        "typescript": "^5.9.3"
     }
 }

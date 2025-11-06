@@ -11,7 +11,7 @@ A unusual ray tracer implemented **purely in CSS** — no pre-rendered images, n
 **You can change and edit compilable parameters.**
 
 - 🎨 **[Ray-Tracing-SCSS](./scss/)** 🎨
-- 🖨️ [JS-DOM-Loader](./canvas-gen.js) 🖨️
+- 🖨️ [JS-DOM-Loader](./canvas-gen.ts) 🖨️
 
 **Such as:**
 

@@ -1,5 +1,5 @@
 //
-.root {
+svg {
     --pixel-size: 2px;
 
     //
@@ -8,71 +8,29 @@
         box-sizing: border-box;
         will-change: transform, contents, scroll-position;
         content-visibility: auto;
-        contain-intrinsic-size:
-            calc(var(--w, 1) * var(--pixel-size, 1))
-            calc(var(--h, 1) * var(--pixel-size, 1));
-        user-select: none; gap: 0px;
+        contain-intrinsic-size: var(--w, 1) var(--h, 1);
+        user-select: none;
         text-rendering: optimizeSpeed;
         shape-rendering: optimizeSpeed;
         background-color: black;
-        font-size: 0px;
-        line-height: 0;
 
         // enable accelerated mode
         transform-origin: 0px 0px;
         transform: translateZ(0px);
-
-        // additional optimize
-        container-type: size; isolation: isolate;
-        inline-size: calc(var(--w, 1) * var(--pixel-size, 1));
-        block-size: calc(var(--h, 1) * var(--pixel-size, 1));
-        contain: strict;
-        overflow: hidden;
-        position: relative;
+        transform-style: preserve-3d;
 
         //
-        perspective: 1000;
-        transform-style: preserve-3d;
+        perspective: 1000px;
     }
 
     //
-    &, & > * { box-sizing: border-box; line-height: 0; padding: 0; margin: 0; border: none 0px transparent; };
-    & > * {
-        --x: mod(var(--I, 0), var(--w, 1));
-        --y: round(down, calc(var(--I, 0) / var(--w, 1)));
+    & .pixel {
+        --x: attr(x type(<number>)); //mod(var(--I, 0), var(--w, 1));
+        --y: attr(y type(<number>)); //round(down, calc(var(--I, 0) / var(--w, 1)));
 
-        backface-visibility: hidden;
-        content-visibility: hidden;
-        contain-intrinsic-size: var(--pixel-size, 1px) var(--pixel-size, 1px);
-        transform-origin: 0px 0px;
-        transform: translate3d(
-            calc(var(--pixel-size, 1px) * var(--x, 1)),
-            calc(var(--pixel-size, 1px) * var(--y, 1)),
-            0px
-        );
-        display: block;
+        //
         text-rendering: optimizeSpeed;
         shape-rendering: optimizeSpeed;
-        font-size: 0px;
-        line-height: 0;
-        position: absolute;
-        inset: auto;
-        inset-inline-start: 0px;
-        inset-block-start: 0px;
-
-        //
-        aspect-ratio: 1 / 1;
-        min-inline-size: var(--pixel-size, 1px);
-        min-block-size: var(--pixel-size, 1px);
-        max-inline-size: var(--pixel-size, 1px);
-        max-block-size: var(--pixel-size, 1px);
-
-        //
-        touch-action: none;
-        user-select: none;
-        pointer-events: none;
-        overflow: hidden;
         paint-order: fill;
-        color: transparent;
     }
 }

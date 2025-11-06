@@ -2,57 +2,57 @@
 $inf: 10000;
 
 //
-@mixin declare-vec3-property($name) {
+@mixin declare-vec3-property($name, $inherits: false) {
     @property --#{$name}-x {
-        inherits: true;
+        inherits: #{$inherits};
         syntax: "<number>";
         initial-value: 0;
     }
 
     @property --#{$name}-y {
-        inherits: true;
+        inherits: #{$inherits};
         syntax: "<number>";
         initial-value: 0;
     }
 
     @property --#{$name}-z {
-        inherits: true;
+        inherits: #{$inherits};
         syntax: "<number>";
         initial-value: 0;
     }
 }
 
 //
-@mixin declare-vec2-property($name) {
+@mixin declare-vec2-property($name, $inherits: false) {
     @property --#{$name}-x {
-        inherits: true;
+        inherits: #{$inherits};
         syntax: "<number>";
         initial-value: 0;
     }
 
     @property --#{$name}-y {
-        inherits: true;
+        inherits: #{$inherits};
         syntax: "<number>";
         initial-value: 0;
     }
 }
 
 //
-@mixin declare-prop($name, $value: 0, $type: number) {
+@mixin declare-prop($name, $value: 0, $type: number, $inherits: false) {
     @property --#{$name} {
-        inherits: true;
+        inherits: #{$inherits};
         syntax: "<#{$type}>";
         initial-value: #{$value};
     }
 }
 
 //
+@include declare-prop("w", 120, number, true);
+@include declare-prop("h", 120, number, true);
 @include declare-prop("dx");
 @include declare-prop("dy");
 @include declare-prop("x");
 @include declare-prop("y");
-@include declare-prop("w");
-@include declare-prop("h");
 @include declare-prop("I");
 
 //
@@ -84,14 +84,14 @@ $inf: 10000;
 }
 
 //
-@include declare-prop("sphere-radius", 0);
-@include declare-prop("sphere-center-length", 0);
+@include declare-prop("sphere-radius", 0, true);
+@include declare-prop("sphere-center-length", 0, true);
 
 //
-@include declare-vec3-property("camera-origin");
-@include declare-vec3-property("camera-dir");
-@include declare-vec3-property("camera-up");
-@include declare-vec3-property("camera-right");
-@include declare-vec3-property("sphere-center");
-@include declare-vec3-property("plane-center");
-@include declare-vec3-property("plane-normal");
+@include declare-vec3-property("camera-origin", true);
+@include declare-vec3-property("camera-dir", true);
+@include declare-vec3-property("camera-up", true);
+@include declare-vec3-property("camera-right", true);
+@include declare-vec3-property("sphere-center", true);
+@include declare-vec3-property("plane-center", true);
+@include declare-vec3-property("plane-normal", true);

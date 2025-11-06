@@ -5,14 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <!--<link rel="prefetch" fetchpriority="high" href="scss/rendering.scss" as="style" onload="this.rel='stylesheet'"/>-->
-    <link rel="prefetch" fetchpriority="high" href="./scss/rendering.scss" as="style" onload="this.rel='stylesheet'"/>
-    <script async defer type="module" src="canvas-gen.js"></script>
 </head>
 <body>
     <script>
         function copyToClipboard(text, ev) {
             ev.preventDefault();
-            navigator.clipboard.writeText(text).then(() => {
+                navigator.clipboard.writeText(text).then(() => {
             }).catch(console.warn.bind(console));
         }
     </script>
@@ -75,12 +73,26 @@
         .donation :where(p, span, a) { font-size: 0.9em; };
         .donation img { inline-size: 80px; block-size: 80px; }
     </style>
+
     <div class="container">
         <header>
             <h1>Ray Tracer</h1>
             <h2>🔦 On CSS only! 🔦</h2>
         </header>
-        <main><div class="demo"><div class="root"></div></div></main>
+        <main>
+            <div class="demo" style="will-change: transform, contents, scroll-position; transform: translateZ(0px);">
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    xmlns:xlink="http://www.w3.org/1999/xlink"
+                    width="120" height="120" viewBox="0 0 120 120"
+                >
+                    <defs>
+                        <rect x="0" y="0" width="1" height="1" id="pixel"/>
+                    </defs>
+                    <g class="pixels"></g>
+                </svg>
+            </div>
+        </main>
         <footer>
             <p>Works on newest chromium-based browsers. Based on CSS custom properties, used `calc` and other new math functions...</p>
             <p><a target="_blank" href="https://chromestatus.com/roadmap">More informations about CSS features support in Chrome.</a></p>
@@ -94,9 +106,10 @@
                     <p>Also, you may consider about donate for us:</p>
                     <p>💎 <a href="#0x102E317665bBa4B4D2e2317Bf3c48F83FC13F4ec" onclick="(ev)=>copyToClipboard('0x102E317665bBa4B4D2e2317Bf3c48F83FC13F4ec', ev)">0x102E317665bBa4B4D2e2317Bf3c48F83FC13F4ec</a> 💎</p>
                     <p>💸 <a href="#TCXePhsrVb63qymT84KP8cEfGWAb7qCKYJ" onclick="(ev)=>copyToClipboard('TCXePhsrVb63qymT84KP8cEfGWAb7qCKYJ', ev)">TCXePhsrVb63qymT84KP8cEfGWAb7qCKYJ</a> 💸</p>
-                    </div>
                 </div>
+            </div>
         </footer>
     </div>
-</body>
+
+    <script async defer type="module" src="canvas-gen.ts"></script>
 </html>

@@ -114,7 +114,7 @@
 }
 
 //
-.root {
+svg {
     & {
         @include v.vec3("camera-origin", 0, 0, 0);
         @include v.vec3("camera-dir", 0, 0.01, 1);
@@ -133,7 +133,7 @@
         @include v.vec3("light-pos", 0, 3, 1);
     }
 
-    & > * {
+    & .pixel {
         & {
             @include m.generate-ray("camera-origin", "camera-dir", "camera-up", "camera-right", "ray-origin-0", "ray-dir-0");
         }
@@ -153,6 +153,6 @@
         }
 
         //
-        & { background-color: var(--color-#{$ray-count}, #111); }
+        & { fill: var(--color-#{$ray-count}, #111); }
     }
 }
