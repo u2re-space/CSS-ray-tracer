@@ -1,5 +1,4 @@
 @use "./vector.scss" as v;
-@use "./logic.scss" as l;
 
 //
 @mixin declare-prop($name, $value: 0, $type: number, $inherits: false) {
@@ -62,6 +61,8 @@
     --sqrt-of-disc: sqrt(max(var(--disc, 0), 0));
     --a-m-2: calc(0.5 / var(--a, 0));
     --b-neg: calc(-1 * var(--b, 0));
+
+    //
     --t1: calc((var(--b-neg, 0) - var(--sqrt-of-disc, 0)) * var(--a-m-2, 0));
     --t2: calc((var(--b-neg, 0) + var(--sqrt-of-disc, 0)) * var(--a-m-2, 0));
 
@@ -69,16 +70,14 @@
     --by-min: min(var(--t1, 0), var(--t2, 0));
     --by-max: max(var(--t1, 0), var(--t2, 0));
     --nearest: #{"if(\
-        style(--by-min >= 0.0): \
-        var(--by-min, 0); else: \
-        var(--by-max, 0); \
+        style(--by-min >= 0.0): var(--by-min, 0); \
+        else:                   var(--by-max, 0); \
     )"};
 
     //
     #{$out}: #{"if(\
-        style(--disc >= 0.0) and style(--nearest >= 0.0): \
-        calc(var(--nearest, 0) - 0.0001); else: \
-        #{v.$inf}; \
+        style(--disc >= 0.0) and style(--nearest >= 0.0): calc(var(--nearest, 0) - 0.0001); \
+        else: #{v.$inf}; \
     )"};
 }
 
@@ -98,9 +97,14 @@
     --numerator: #{v.dot($plane-normal, "po")};
     --denominator: #{v.dot($plane-normal, $dir)};
     --dcomparable: abs(var(--denominator, 0));
-    --is-parallel: #{"if(style(--dcomparable < 0.001): 1; else: 0;)"};
-    --t: #{"if(style(--is-parallel: 1): #{v.$inf}; else: calc(var(--numerator, 0) / var(--denominator, 0));)"};
-    #{$out}: #{"if(style(--t < 0.001): #{v.$inf}; else: calc(var(--t, #{v.$inf}) - 0.001);)"};
+    --t: #{"if(\
+        style(--dcomparable < 0.001): #{v.$inf}; \
+        else: calc(var(--numerator, 0) / var(--denominator, 0));\
+    )"};
+    #{$out}: #{"if(\
+        style(--t < 0.001): #{v.$inf};\
+        else: calc(var(--t, #{v.$inf}) - 0.001);\
+    )"};
 }
 
 //

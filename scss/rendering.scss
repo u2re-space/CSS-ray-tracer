@@ -1,6 +1,5 @@
 @use "vector.scss" as v;
 @use "native.scss" as n;
-@use "logic.scss" as l;
 @use "color.scss" as c;
 @use "intersection.scss" as i;
 @use "misc.scss" as m;
@@ -13,14 +12,8 @@
 }
 
 //
-@#{"function --is-equal(--a <number>, --b <number>) returns <number>"} {
-    --diff: abs(calc(var(--b, 0) - var(--a, 0)));
-    result: #{"if(style(--diff < 0.0001): 1; else: 0;)"};
-}
-
-//
 @function is-equal($a, $b) {
-    @return #{"--is-equal(var(--#{$a}, 0), var(--#{$b}, 0))"};
+    @return calc(1 - clamp(0, sign(calc(abs(var(--#{$b}, 0) - var(--#{$a}, 0)) - 0.0001)), 1));
 }
 
 //
@@ -95,9 +88,9 @@
         --sphere-color-#{$i}: #ffccaa;
 
         //
-        --surface-color-#{$i}: #{l.col-mix(var(--is-sphere-#{$i}, 0), var(--sphere-color-#{$i}, #111), var(--plane-color-#{$i}, #fff))};
+        --surface-color-#{$i}: #{c.col-mix(var(--is-sphere-#{$i}, 0), var(--sphere-color-#{$i}, #111), var(--plane-color-#{$i}, #fff))};
         --shaded-color-#{$i}: #{c.light-shading("ray-origin-#{$i}", "mixed-normal-#{$i}", "light-pos", var(--surface-color-#{$i}))};
-        --it-color-#{$i}: #{l.col-mix(var(--valid-distance-#{$i}, 0), var(--shaded-color-#{$i}), var(--default-color-#{$i}))};
+        --it-color-#{$i}: #{c.col-mix(var(--valid-distance-#{$i}, 0), var(--shaded-color-#{$i}), var(--default-color-#{$i}))};
 
         //
         --fresnel-#{$i}: calc(0.05 + 0.95 * clamp(0, pow(1 - abs(#{v.dot("ray-dir-#{$prev-i}", "mixed-normal-#{$prev-i}")}), 5), 1));

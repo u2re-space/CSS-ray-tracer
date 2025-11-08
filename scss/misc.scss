@@ -1,5 +1,4 @@
 @use "./vector.scss" as v;
-@use "./logic.scss" as l;
 
 //
 @mixin generate-ray($camera-origin, $camera-view-dir, $camera-up, $camera-right, $out-ray-origin, $out-ray-dir) {
