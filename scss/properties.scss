@@ -78,7 +78,7 @@ $inf: 10000;
     @include declare-prop("mix-factor-#{$i}", 0);
 
     //
-    @include declare-prop("sphere-radius-I-#{$i}", 0, true);
+    @include declare-prop("sphere-radius-I-#{$i}", 0, number, true);
 
     //
     @include declare-vec2-property("screen");
@@ -90,11 +90,11 @@ $inf: 10000;
 }
 
 //
-@include declare-prop("sphere-radius", 0, true);
-@include declare-prop("sphere-radius-I", 0, true);
-@include declare-prop("sphere-radius-in-2", 0, true);
-@include declare-prop("sphere-center-length", 0, true);
-@include declare-prop("ray-dir-length", 0, true);
+@include declare-prop("sphere-radius", 0, number, true);
+@include declare-prop("sphere-radius-I", 0, number, true);
+@include declare-prop("sphere-radius-in-2", 0, number, true);
+@include declare-prop("sphere-center-length", 0, number, true);
+@include declare-prop("ray-dir-length", 0, number, true);
 
 //
 @include declare-vec3-property("camera-origin", true);

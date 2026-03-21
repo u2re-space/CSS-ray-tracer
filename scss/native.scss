@@ -9,7 +9,7 @@
 //
 @function make_arg($name) {
     $is-color: string.index("#{$name}", "color") != null;
-    $type: if($is-color, "<color>", "<number>");
+    $type: if(sass($is-color): "<color>"; else: "<number>");
     @return string.unquote("--#{$name} type(#{$type})");
 }
 

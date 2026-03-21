@@ -6,10 +6,6 @@
 @use "layout.scss";
 @use "properties.scss";
 
-//
-@function if($bool, $ifTrue: 1, $ifFalse: 0) {
-    @return "if (style(--#{$bool}: 1): #{$ifTrue}; else: #{$ifFalse};)";
-}
 
 //
 @function is-equal($a, $b) {
@@ -18,7 +14,7 @@
 
 //
 @function between-compare($v, $a, $b, $inclusive: true) {
-    @return #{"if(style(--#{$v} >= #{$a}) and style(--#{$v} < #{$b}): 1; else: 0; )"};
+    @return if(style(--#{$v} >= #{$a}) and style(--#{$v} < #{$b}): 1; else: 0; );
 }
 
 //
@@ -28,19 +24,19 @@
     // Potentially optimized?
     // Intersection tests
     & {
-        --sphere-t-#{$i}: #{if("valid-distance-#{$prev-i}", i.sphere-intersection(
+        --sphere-t-#{$i}: #{i.sphere-intersection(
             "sphere-center",
             "sphere-radius-in-2",
             "ray-origin-#{$prev-i}",
             "ray-dir-#{$prev-i}"
-        ), v.$inf)};
+        )};
 
-        --plane-t-#{$i}: #{if("valid-distance-#{$prev-i}", i.plane-intersection(
+        --plane-t-#{$i}: #{i.plane-intersection(
             "plane-center",
             "plane-normal",
             "ray-origin-#{$prev-i}",
             "ray-dir-#{$prev-i}"
-        ), v.$inf)};
+        )};
     }
 
     //
@@ -80,7 +76,7 @@
     }
 
     //
-    & { --plane-color-#{$i}: #{if("is-plane-#{$i}", c.checkerboard("ray-origin-#{$i}"), #111)}; }
+    & { --plane-color-#{$i}: #{if(style(--is-plane-#{$i} = 1): c.checkerboard("ray-origin-#{$i}"); else: #111)}; }
 
     //
     & {
@@ -145,7 +141,7 @@ svg {
         }
 
         //
-        $ray-count: 1;
+        $ray-count: 2;
         @for $i from 1 through $ray-count {
             @include trace-ray($i);
         }
